@@ -4,8 +4,10 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Weapon } from './weapons/weapon.entity';
 import { WeaponsModule } from './weapons/weapons.module';
+import { TalismansModule } from './talismans/talismans.module';
+import { Talisman } from './talismans/talisman.entity';
 
-@Module({
+  @Module({
   imports: [
     TypeOrmModule.forRoot({
       type:'postgres',
@@ -14,10 +16,11 @@ import { WeaponsModule } from './weapons/weapons.module';
       username:'root',
       password:'root',
       database:'eldenDB',
-      entities:[Weapon],
+      entities:[Weapon, Talisman],
       synchronize: true,
     }),
-    WeaponsModule
+    WeaponsModule,
+    TalismansModule
   ],
   controllers: [AppController],
   providers: [AppService],

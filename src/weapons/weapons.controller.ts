@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, UsePipes } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { WeaponsService } from './weapons.service';
 import { Weapon } from './weapon.entity';
 import { weaponData, weaponTypeE } from './weapon.interface';
