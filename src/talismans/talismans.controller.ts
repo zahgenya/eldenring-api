@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { TalismansService } from './talismans.service';
 import { Talisman } from './talisman.entity';
 import { talismanData } from './talisman.interface';
@@ -13,7 +13,7 @@ export class TalismansController {
   }
 
   @Get('talismans/:id')
-  getTalisman(id: number): Promise<Talisman> {
+  getTalisman(@Param('id') id: number): Promise<Talisman> {
     return this.talismansService.findOne(id)
   }
 

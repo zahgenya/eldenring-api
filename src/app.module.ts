@@ -6,6 +6,8 @@ import { Weapon } from './weapons/weapon.entity';
 import { WeaponsModule } from './weapons/weapons.module';
 import { TalismansModule } from './talismans/talismans.module';
 import { Talisman } from './talismans/talisman.entity';
+import { SpellsModule } from './spells/spells.module';
+import { Spell } from './spells/spell.entity';
 
   @Module({
   imports: [
@@ -16,11 +18,12 @@ import { Talisman } from './talismans/talisman.entity';
       username:'root',
       password:'root',
       database:'eldenDB',
-      entities:[Weapon, Talisman],
+      entities:[Weapon, Talisman, Spell],
       synchronize: true,
     }),
     WeaponsModule,
-    TalismansModule
+    TalismansModule,
+    SpellsModule
   ],
   controllers: [AppController],
   providers: [AppService],

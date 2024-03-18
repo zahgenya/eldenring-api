@@ -14,10 +14,15 @@ export class WeaponsController {
 
 // There is no enum implementation, need another approach. Maybe pipe.
 
-  @Get('weapons/:type')
+  @Get('weapons/type/:type')
   getWeaponsByType(@Param('type') type: weaponTypeE): Promise<Weapon[]> {
   return this.weaponsService.findByType(type);
 }
+
+  @Get('weapons/:id')
+  getWeaponById(@Param('id') id: number): Promise<Weapon> {
+    return this.weaponsService.findOne(id);
+  }
 
   @Post('weapons')
   async createWeapon(@Body() weaponData: weaponData): Promise<Weapon> {

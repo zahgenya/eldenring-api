@@ -16,7 +16,7 @@ export class TalismansService {
   }
 
   findOne(id: number): Promise<Talisman> {
-    return this.talismansRepository.findOneBy({ id })
+    return this.talismansRepository.findOneBy({ id: id })
   }
 
   async create(talismanData: talismanData): Promise<Talisman> {

@@ -16,8 +16,8 @@ export class WeaponsService {
   }
 
   findOne(id: number): Promise<Weapon> {
-    return this.weaponsRepository.findOneBy({ id });
-  }
+    return this.weaponsRepository.findOneBy({ id: id });
+   }
 
   findByType(type: weaponTypeE): Promise<Weapon[]> {
     return this.weaponsRepository.findBy({ type: type })
