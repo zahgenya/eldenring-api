@@ -8,7 +8,7 @@ export class WeaponsController {
   constructor(private readonly weaponsService: WeaponsService) {}
 
   @Get('weapons')
-  async getWeapons(): Promise<Weapon[]> {
+  getWeapons(): Promise<Weapon[]> {
     return this.weaponsService.findAll();
   }
 
