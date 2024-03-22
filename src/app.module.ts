@@ -10,6 +10,8 @@ import { SpellsModule } from './spells/spells.module';
 import { Spell } from './spells/spell.entity';
 import { AshesModule } from './ashes/ashes.module';
 import { Ash } from './ashes/ash.entity';
+import { ArmorsModule } from './armors/armors.module';
+import { Armor } from './armors/armor.entity';
 
   @Module({
   imports: [
@@ -20,13 +22,14 @@ import { Ash } from './ashes/ash.entity';
       username:'root',
       password:'root',
       database:'eldenDB',
-      entities:[Weapon, Talisman, Spell, Ash],
+      entities:[Weapon, Talisman, Spell, Ash, Armor],
       synchronize: true,
     }),
     WeaponsModule,
     TalismansModule,
     SpellsModule,
-    AshesModule
+    AshesModule,
+    ArmorsModule
   ],
   controllers: [AppController],
   providers: [AppService],
