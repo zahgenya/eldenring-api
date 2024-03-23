@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { TalismansService } from './talismans.service';
 import { Talisman } from './talisman.entity';
 import { talismanData } from './talisman.interface';
@@ -9,16 +17,41 @@ export class TalismansController {
 
   @Get('talismans')
   async getTalismans(): Promise<Talisman[]> {
-    return this.talismansService.findAll();
+    const talismans = await this.talismansService.findAll();
+    if (talismans.length === 0) {
+      throw new HttpException(
+        'Internal server error',
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+    return talismans;
   }
 
   @Get('talismans/:id')
-  getTalisman(@Param('id') id: number): Promise<Talisman> {
-    return this.talismansService.findOne(id)
+  async getTalisman(@Param('id') id: number): Promise<Talisman> {
+    const talisman = await this.talismansService.findOne(id);
+    if (!talisman) {
+      throw new HttpException('Talisman not found', HttpStatus.NOT_FOUND);
+    }
+    return talisman;
   }
 
   @Post('talismans')
   async createTalisman(@Body() talismanData: talismanData): Promise<Talisman> {
-    return await this.talismansService.create(talismanData)
+    try {
+      const newTalisman = await this.talismansService.create(talismanData);
+      return newTalisman;
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'Invalid post body',
+        },
+        HttpStatus.BAD_REQUEST,
+        {
+          cause: error,
+        }
+      );
+    }
   }
 }
