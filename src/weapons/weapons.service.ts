@@ -11,29 +11,26 @@ export class WeaponsService {
     private weaponsRepository: Repository<Weapon>
   ) {}
 
-  findAll(): Promise<Weapon[]> {
-    return this.weaponsRepository.find();
+  async findAll(type?: weaponTypeE, limit?: number): Promise<Weapon[]> {
+    let queryBuilder = this.weaponsRepository.createQueryBuilder('weapon')
+
+    if (type) {
+      queryBuilder = queryBuilder.where('weapon.type = :type', { type });
+    }
+
+    if (limit) {
+      queryBuilder = queryBuilder.take(limit);
+    }
+
+    return await queryBuilder.getMany();
   }
 
   findOne(id: number): Promise<Weapon> {
     return this.weaponsRepository.findOneBy({ id: id });
    }
 
-  findByType(type: weaponTypeE): Promise<Weapon[]> {
-    return this.weaponsRepository.findBy({ type: type })
-  }
-
   async create(weaponData: weaponData): Promise<Weapon> {
-    const newWeapon = new Weapon();
-    newWeapon.name = weaponData.name;
-    newWeapon.weight = weaponData.weight;
-    newWeapon.type = weaponData.type;
-    newWeapon.skill = weaponData.skill;
-    newWeapon.description = weaponData.description;
-    newWeapon.damage = weaponData.damage;
-    newWeapon.guard = weaponData.guard;
-    newWeapon.scaling = weaponData.scaling;
-    newWeapon.requires = weaponData.requires;
+    const newWeapon = this.weaponsRepository.create(weaponData)
     return await this.weaponsRepository.save(newWeapon);
   }
 }

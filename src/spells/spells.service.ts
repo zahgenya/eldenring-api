@@ -11,8 +11,18 @@ export class SpellsService {
     private spellsRepository: Repository<Spell>
   ) {}
 
-  findAll(): Promise<Spell[]> {
-    return this.spellsRepository.find();
+  async findAll(magicType?: magicTypeE, limit?: number): Promise<Spell[]> {
+    let queryBuilder = this.spellsRepository.createQueryBuilder('spell')
+
+    if (magicType) {
+      queryBuilder = queryBuilder.where('spell.magicType = :magicType', { magicType });
+    }
+
+    if (limit) {
+      queryBuilder = queryBuilder.take(limit)
+    }
+
+    return await queryBuilder.getMany()
   }
 
   findOne(id: number): Promise<Spell> {
@@ -24,15 +34,7 @@ export class SpellsService {
   }
 
   async create(spellData: spellData): Promise<Spell> {
-    const newSpell = new Spell();
-    newSpell.name = spellData.name;
-    newSpell.description = spellData.description;
-    newSpell.spellType = spellData.spellType;
-    newSpell.magicType = spellData.magicType;
-    newSpell.cost = spellData.cost;
-    newSpell.slots = spellData.slots;
-    newSpell.effects = spellData.effects;
-    newSpell.requires = spellData.requires;
+    const newSpell = this.spellsRepository.create(spellData);
     return await this.spellsRepository.save(newSpell);
   }
 }

@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Query,
 } from '@nestjs/common';
 import { SpellsService } from './spells.service';
 import { Spell } from './spell.entity';
@@ -16,23 +17,23 @@ export class SpellsController {
   constructor(private readonly spellsService: SpellsService) {}
 
   @Get('spells')
-  async getSpells(): Promise<Spell[]> {
-    const spells = await this.spellsService.findAll();
+  async getSpells(
+    @Query('magicType') magicType: magicTypeE,
+    @Query('limit') limit: number
+  ): Promise<Spell[]> {
+    if (limit && isNaN(limit)) {
+      throw new HttpException('Limit param should be number', HttpStatus.BAD_REQUEST);
+    }
+
+    const spells = await this.spellsService.findAll(magicType, limit);
+
     if (spells.length === 0) {
       throw new HttpException(
         'Internal server error',
         HttpStatus.INTERNAL_SERVER_ERROR
       );
     }
-    return spells;
-  }
 
-  @Get('spells/type/:type')
-  async getSpellsByType(@Param('type') type: magicTypeE): Promise<Spell[]> {
-    const spells = await this.spellsService.findByMagicType(type);
-    if (spells.length === 0) {
-      throw new HttpException('Invalid spells type', HttpStatus.NOT_FOUND);
-    }
     return spells;
   }
 

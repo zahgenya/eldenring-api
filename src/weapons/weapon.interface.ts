@@ -66,14 +66,13 @@ interface guardI {
 }
 
 export interface weaponData {
+  name: string;
   type: weaponTypeE;
   skill: string;
   weight: number;
-  scaling: scaleStatsI;
-  requires: reqStatsI;
+  description: string;
   damage: damageI;
   guard: guardI;
-  description: string;
-  name: string;
-  id: string;
+  scaling: scaleStatsI;
+  requires: reqStatsI;
 }

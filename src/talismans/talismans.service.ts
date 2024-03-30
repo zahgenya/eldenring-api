@@ -11,8 +11,14 @@ export class TalismansService {
     private talismansRepository: Repository<Talisman>
   ) {}
 
-  findAll(): Promise<Talisman[]> {
-    return this.talismansRepository.find();
+  async findAll(limit?: number): Promise<Talisman[]> {
+    let queryBuilder = this.talismansRepository.createQueryBuilder('talisman')
+
+    if (limit) {
+      queryBuilder.take(limit);
+    }
+
+    return await queryBuilder.getMany();
   }
 
   findOne(id: number): Promise<Talisman> {

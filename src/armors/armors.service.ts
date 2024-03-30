@@ -11,8 +11,14 @@ export class ArmorsService {
     private armorRepository: Repository<Armor>
   ) {}
 
-  findAll(): Promise<Armor[]> {
-    return this.armorRepository.find()
+  async findAll(limit?: number): Promise<Armor[]> {
+    let queryBuilder = this.armorRepository.createQueryBuilder();
+
+    if (limit) {
+      queryBuilder = queryBuilder.take(limit);
+    }
+
+    return await queryBuilder.getMany();
   }
 
   findOne(id: number): Promise<Armor> {
@@ -20,13 +26,7 @@ export class ArmorsService {
   }
 
   async create(armorData: armorData): Promise<Armor> {
-    const newArmor = new Armor;
-    newArmor.name = armorData.name;
-    newArmor.description = armorData.description;
-    newArmor.category = armorData.category;
-    newArmor.weight = armorData.weight;
-    newArmor.dmgNegation = armorData.dmgNegation;
-    newArmor.resistance = armorData.resistance;
+    const newArmor = this.armorRepository.create(armorData);
     return await this.armorRepository.save(newArmor);
   }
 }

@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Query,
 } from '@nestjs/common';
 import { TalismansService } from './talismans.service';
 import { Talisman } from './talisman.entity';
@@ -16,14 +17,22 @@ export class TalismansController {
   constructor(private readonly talismansService: TalismansService) {}
 
   @Get('talismans')
-  async getTalismans(): Promise<Talisman[]> {
-    const talismans = await this.talismansService.findAll();
+  async getTalismans(
+    @Query('limit') limit: number
+  ): Promise<Talisman[]> {
+    if (limit && isNaN(limit)) {
+      throw new HttpException('Limit param should be a number', HttpStatus.BAD_REQUEST);
+    }
+
+    const talismans = await this.talismansService.findAll(limit)
+
     if (talismans.length === 0) {
       throw new HttpException(
         'Internal server error',
         HttpStatus.INTERNAL_SERVER_ERROR
       );
     }
+
     return talismans;
   }
 

@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Query,
 } from '@nestjs/common';
 import { AshesService } from './ashes.service';
 import { Ash } from './ash.entity';
@@ -16,14 +17,22 @@ export class AshesController {
   constructor(private readonly ashesService: AshesService) {}
 
   @Get('ashes')
-  async getAshes(): Promise<Ash[]> {
-    const ashes = await this.ashesService.findAll();
+  async getAshes(
+    @Query('limit') limit: number
+  ): Promise<Ash[]> {
+    if (limit && isNaN(limit)) {
+      throw new HttpException('Limit param should be a number', HttpStatus.BAD_REQUEST);
+    }
+    
+    const ashes = await this.ashesService.findAll(limit);
+
     if (ashes.length === 0) {
       throw new HttpException(
         'Internal server error',
         HttpStatus.INTERNAL_SERVER_ERROR
       );
     }
+
     return ashes;
   }
 

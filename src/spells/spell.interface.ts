@@ -1,5 +1,4 @@
 export interface spellData {
-  id: number,
   name: string,
   description: string,
   spellType: string,

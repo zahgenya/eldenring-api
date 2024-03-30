@@ -11,8 +11,14 @@ export class AshesService {
     private ashesRepository: Repository<Ash>
   ) {}
 
-  findAll(): Promise<Ash[]> {
-    return this.ashesRepository.find()
+  async findAll(limit?: number): Promise<Ash[]> {
+    let queryBuilder = this.ashesRepository.createQueryBuilder();
+
+    if (limit) {
+      queryBuilder = queryBuilder.take(limit)
+    }
+
+    return await queryBuilder.getMany();
   }
 
   findOne(id: number): Promise<Ash> {
@@ -20,11 +26,7 @@ export class AshesService {
   }
 
   async create(ashData: ashData): Promise<Ash> {
-    const newAsh = new Ash();
-    newAsh.name = ashData.name;
-    newAsh.description = ashData.description;
-    newAsh.affinity = ashData.affinity
-    newAsh.skill = ashData.skill
+    const newAsh = this.ashesRepository.create(ashData);
     return await this.ashesRepository.save(newAsh);
   }
 }

@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Query,
 } from '@nestjs/common';
 import { ArmorsService } from './armors.service';
 import { Armor } from './armor.entity';
@@ -16,8 +17,15 @@ export class ArmorsController {
   constructor(private readonly armorsService: ArmorsService) {}
 
   @Get('armors')
-  async getArmors(): Promise<Armor[]> {
-    const armors = await this.armorsService.findAll();
+  async getArmors(
+    @Query('limit') limit: number
+  ): Promise<Armor[]> {
+    if (limit && isNaN(limit)) {
+      throw new HttpException('Limit param should be a number', HttpStatus.BAD_REQUEST)
+    }
+
+    const armors = await this.armorsService.findAll(limit);
+
     if (armors.length === 0) {
       throw new HttpException(
         'Internal server error',
