@@ -68,7 +68,6 @@ interface guardI {
 export interface weaponData {
   name: string;
   type: weaponTypeE;
-  skill: string;
   weight: number;
   description: string;
   damage: damageI;

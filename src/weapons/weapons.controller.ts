@@ -7,6 +7,7 @@ import {
   HttpException,
   HttpStatus,
   Query,
+  Logger,
 } from '@nestjs/common';
 import { WeaponsService } from './weapons.service';
 import { Weapon } from './weapon.entity';
@@ -14,6 +15,8 @@ import { weaponData, weaponTypeE } from './weapon.interface';
 
 @Controller()
 export class WeaponsController {
+  private readonly logger = new Logger(WeaponsController.name);
+
   constructor(private readonly weaponsService: WeaponsService) {}
 
   @Get('weapons')
@@ -46,11 +49,12 @@ export class WeaponsController {
   }
 
   @Post('weapons')
-  async createWeapon(@Body() weaponData: weaponData): Promise<Weapon> {
+  async createWeapon(@Body() weaponsData: weaponData[]): Promise<Weapon[]> {
     try {
-      const newWeapon = await this.weaponsService.create(weaponData);
-      return newWeapon;
+      const newWeapons = await this.weaponsService.createMany(weaponsData);
+      return newWeapons;
     } catch (error) {
+      this.logger.error('Error occurred while creating weapons', error.stack);
       throw new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,

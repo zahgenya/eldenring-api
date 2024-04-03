@@ -11,9 +11,6 @@ export class Weapon {
   @Column()
   type: string;
 
-  @Column()
-  skill: string;
-
   @Column({ type: "decimal", precision: 5, scale: 2 })
   weight: number;
 

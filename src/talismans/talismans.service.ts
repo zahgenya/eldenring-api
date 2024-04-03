@@ -26,10 +26,7 @@ export class TalismansService {
   }
 
   async create(talismanData: talismanData): Promise<Talisman> {
-    const newTalisman = new Talisman();
-    newTalisman.name = talismanData.name;
-    newTalisman.description = talismanData.description;
-    newTalisman.effects = talismanData.effects;
+    const newTalisman = this.talismansRepository.create(talismanData);
     return await this.talismansRepository.save(newTalisman);
   }
 }

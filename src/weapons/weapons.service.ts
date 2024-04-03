@@ -29,8 +29,15 @@ export class WeaponsService {
     return this.weaponsRepository.findOneBy({ id: id });
    }
 
-  async create(weaponData: weaponData): Promise<Weapon> {
-    const newWeapon = this.weaponsRepository.create(weaponData)
-    return await this.weaponsRepository.save(newWeapon);
+   async createMany(weaponsData: weaponData[]): Promise<Weapon[]> {
+    const newWeapons: Weapon[] = [];
+
+    for (const data of weaponsData) {
+      const newWeapon = this.weaponsRepository.create(data);
+      const savedWeapon = await this.weaponsRepository.save(newWeapon);
+      newWeapons.push(savedWeapon);
+    }
+
+    return newWeapons;
   }
 }
