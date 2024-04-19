@@ -29,12 +29,15 @@ export class SpellsService {
     return this.spellsRepository.findOneBy({ id: id });
   }
 
-  findByMagicType(magicType: magicTypeE): Promise<Spell[]> {
-    return this.spellsRepository.findBy({ magicType: magicType })
-  }
+  async createMany(spellsData: spellData[]): Promise<Spell[]> {
+    const newSpells: Spell[] = [];
 
-  async create(spellData: spellData): Promise<Spell> {
-    const newSpell = this.spellsRepository.create(spellData);
-    return await this.spellsRepository.save(newSpell);
+    for (const data of spellsData) {
+      const newSpell = this.spellsRepository.create(data);
+      const savedSpell = await this.spellsRepository.save(newSpell);
+      newSpells.push(savedSpell);
+    }
+
+    return newSpells;
   }
 }

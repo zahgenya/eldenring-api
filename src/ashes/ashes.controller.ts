@@ -46,10 +46,10 @@ export class AshesController {
   }
 
   @Post('ashes')
-  async createAsh(@Body() ashData: ashData): Promise<Ash> {
+  async createAsh(@Body() ashesData: ashData[]): Promise<Ash[]> {
     try {
-      const newAsh = await this.ashesService.create(ashData);
-      return newAsh;
+      const newAshes = await this.ashesService.createMany(ashesData);
+      return newAshes;
     } catch (error) {
       throw new HttpException(
         {

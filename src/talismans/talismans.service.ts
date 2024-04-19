@@ -25,8 +25,15 @@ export class TalismansService {
     return this.talismansRepository.findOneBy({ id: id })
   }
 
-  async create(talismanData: talismanData): Promise<Talisman> {
-    const newTalisman = this.talismansRepository.create(talismanData);
-    return await this.talismansRepository.save(newTalisman);
+  async createMany(talismansData: talismanData[]): Promise<Talisman[]> {
+    const newTalismans: Talisman[] = [];
+
+    for (const data of talismansData) {
+      const newTalisman = this.talismansRepository.create(data);
+      const savedTalisman = await this.talismansRepository.save(newTalisman);
+      newTalismans.push(savedTalisman);
+    }
+
+    return newTalismans;
   }
 }

@@ -45,10 +45,10 @@ export class ArmorsController {
   }
 
   @Post('armors')
-  async createArmor(@Body() armorData: armorData): Promise<Armor> {
+  async createArmor(@Body() armorsData: armorData[]): Promise<Armor[]> {
     try {
-      const newArmor = await this.armorsService.create(armorData);
-      return newArmor;
+      const newArmors = await this.armorsService.createMany(armorsData);
+      return newArmors;
     } catch (error) {
       throw new HttpException(
         {

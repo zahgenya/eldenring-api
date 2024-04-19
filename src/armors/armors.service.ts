@@ -25,8 +25,15 @@ export class ArmorsService {
     return this.armorRepository.findOneBy({ id: id })
   }
 
-  async create(armorData: armorData): Promise<Armor> {
-    const newArmor = this.armorRepository.create(armorData);
-    return await this.armorRepository.save(newArmor);
+  async createMany(armorsData: armorData[]): Promise<Armor[]> {
+    const newArmors: Armor[] = [];
+
+    for (const data of armorsData) {
+      const newArmor = this.armorRepository.create(data);
+      const savedArmor = await this.armorRepository.save(newArmor);
+      newArmors.push(savedArmor);
+    }
+
+    return newArmors
   }
 }

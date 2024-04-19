@@ -47,10 +47,10 @@ export class SpellsController {
   }
 
   @Post('spells')
-  async createSpell(@Body() spellData: spellData): Promise<Spell> {
+  async createSpell(@Body() spellsData: spellData[]): Promise<Spell[]> {
     try {
-      const newSpell = await this.spellsService.create(spellData);
-      return newSpell;
+      const newSpells = await this.spellsService.createMany(spellsData);
+      return newSpells;
     } catch (error) {
       throw new HttpException(
         {

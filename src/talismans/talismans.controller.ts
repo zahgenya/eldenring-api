@@ -46,10 +46,10 @@ export class TalismansController {
   }
 
   @Post('talismans')
-  async createTalisman(@Body() talismanData: talismanData): Promise<Talisman> {
+  async createMany(@Body() talismansData: talismanData[]): Promise<Talisman[]> {
     try {
-      const newTalisman = await this.talismansService.create(talismanData);
-      return newTalisman;
+      const newTalismans = await this.talismansService.createMany(talismansData);
+      return newTalismans;
     } catch (error) {
       throw new HttpException(
         {

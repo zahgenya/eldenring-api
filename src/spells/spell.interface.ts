@@ -1,7 +1,6 @@
 export interface spellData {
   name: string,
   description: string,
-  spellType: string,
   magicType: magicTypeE,
   cost: number,
   slots: number,

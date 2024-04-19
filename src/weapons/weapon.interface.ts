@@ -75,3 +75,7 @@ export interface weaponData {
   scaling: scaleStatsI;
   requires: reqStatsI;
 }
+
+export interface mockWeaponData extends weaponData {
+  id: number
+}

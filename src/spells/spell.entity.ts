@@ -12,9 +12,6 @@ export class Spell {
   description: string;
 
   @Column()
-  spellType: string;
-
-  @Column()
   magicType: string;
 
   @Column()

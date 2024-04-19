@@ -29,7 +29,7 @@ export class WeaponsService {
     return this.weaponsRepository.findOneBy({ id: id });
    }
 
-   async createMany(weaponsData: weaponData[]): Promise<Weapon[]> {
+  async createMany(weaponsData: weaponData[]): Promise<Weapon[]> {
     const newWeapons: Weapon[] = [];
 
     for (const data of weaponsData) {

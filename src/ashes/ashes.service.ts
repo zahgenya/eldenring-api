@@ -25,8 +25,15 @@ export class AshesService {
     return this.ashesRepository.findOneBy({ id: id })
   }
 
-  async create(ashData: ashData): Promise<Ash> {
-    const newAsh = this.ashesRepository.create(ashData);
-    return await this.ashesRepository.save(newAsh);
+  async createMany(ashesData: ashData[]): Promise<Ash[]> {
+    const newAshes: Ash[] = [];
+
+    for (const data of ashesData) {
+      const newAsh = this.ashesRepository.create(data);
+      const savedAsh = await this.ashesRepository.save(newAsh);
+      newAshes.push(savedAsh);
+    }
+
+    return newAshes;
   }
 }
