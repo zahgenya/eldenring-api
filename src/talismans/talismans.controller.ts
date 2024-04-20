@@ -37,7 +37,7 @@ export class TalismansController {
   }
 
   @Get('talismans/:id')
-  async getTalisman(@Param('id') id: number): Promise<Talisman> {
+  async getTalismanById(@Param('id') id: number): Promise<Talisman> {
     const talisman = await this.talismansService.findOne(id);
     if (!talisman) {
       throw new HttpException('Talisman not found', HttpStatus.NOT_FOUND);

@@ -87,7 +87,7 @@ describe('TalismansController', () => {
       return undefined
     })
 
-    const result = await controller.getTalisman(1)
+    const result = await controller.getTalismanById(1)
     expect(result).toEqual(talisman)
   })
 
@@ -100,7 +100,7 @@ describe('TalismansController', () => {
     })
 
     try {
-      await controller.getTalisman(0);
+      await controller.getTalismanById(0);
     } catch (error) {
       expect(error).toBeInstanceOf(HttpException)
       expect(error.message).toBe('Talisman not found')
