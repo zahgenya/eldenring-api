@@ -25,3 +25,7 @@ export interface armorData {
   dmgNegation: dmgI;
   resistance: resistI;
 }
+
+export interface mockArmorData extends armorData {
+  id: number
+}

@@ -18,3 +18,7 @@ export enum magicTypeE {
   sorcery = "Sorcery",
   incantation = "Incantation"
 }
+
+export interface mockSpellData extends spellData {
+  id: number,
+}

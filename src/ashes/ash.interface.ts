@@ -4,3 +4,7 @@ export interface ashData {
   affinity: string;
   skill: string;
 }
+
+export interface mockAshData extends ashData {
+  id: number,
+}

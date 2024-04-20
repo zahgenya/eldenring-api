@@ -3,3 +3,7 @@ export interface talismanData {
   description: string,
   effects: string,
 }
+
+export interface mockTalismanData extends talismanData {
+  id: number,
+}
